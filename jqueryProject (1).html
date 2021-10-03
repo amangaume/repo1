@@ -1,0 +1,200 @@
+<html>
+<head>
+    <title>
+    jQuery Project</title>
+     <script src="jquery-1.10.2.js" type="text/javascript"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="jquery-ui-1.12.1/jquery-ui.css"  rel=stylesheet>
+    <script src="jquery-ui-1.12.1/jquery-ui.js" type="text/javascript"></script>
+    <link href="jquery-ui-1.12.1/jquery-ui.theme.css"  rel=stylesheet>
+    
+    <style>
+      
+        body{
+           
+        padding: 0px;
+            margin: 0px;
+            font-family: fantasy;
+            
+        }
+    #header{
+        padding: 20px;
+        margin: 0px;
+        height: 20px;
+        color:red;
+        background-color: rgba(114, 111, 111, 0.22  );
+        border-radius: 4px;
+        transition:background-color 2000ms ease-in-out
+        }
+        
+        #buttonContainer{
+            width: 800px;
+            margin: 0px auto;
+            margin-left:530px;
+                       
+        }
+        
+        .toggleButton{
+            width:90px;
+            float: left;
+            border: 2px solid gray;
+            border-left: none;
+            font-size: 15px;
+            padding: 5px;
+            
+        }
+        #logo{
+            position: relative;
+            float: left;
+            font-size:33px;
+            }
+        #html{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-left:2px solid gray;
+            
+        }  
+        #output{
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            
+        }
+
+        .active{
+            background-color:black;
+            color: blanchedalmond;
+        }
+        .highlighted{
+            background-color:dimgrey;
+        }
+        #htmlPanel{
+            width:50%;
+            resize:none;
+            
+           
+        }
+        .panel{
+             float:left;
+            
+            font-size: 14px;
+             transition: background-color 2000ms ease-in-out,width 1000ms ease-in-out;
+            
+        
+        }
+        iframe{
+            border:none;
+        }
+        .hidden{
+            display:none;
+            }
+        #nightBtn{
+            border-radius: 4px;
+            }
+        #nightButtonContainer{
+          float:right;
+            border-left: 2px solid gray;
+            
+            border-radius: 4px;
+        }
+        
+        .nightMode{
+            background-color :#242329;
+            color:white;
+              }
+        #header.nightMode{
+            background-color :#242329;
+            
+        }
+        
+    </style>
+    
+    </head>
+    
+
+<body>
+    <div id="header">
+        
+        <div id="logo"><span title="Developed by Aman">CodeEditzz</span></div>
+                    
+                <div id="buttonContainer">
+                        <button class="toggleButton active" id="html">Html </button>
+                        <button class="toggleButton" id="css"> Css</button>
+                        <button class="toggleButton" id="js">JS</button>
+                        <button class="toggleButton active" id="output"> Output</button>
+                </div>
+        <div id="nightButtonContainer"><button class="toggleButton" id="nightBtn">Night Mode</button></div>
+        
+    </div>
+    
+    <textarea id="htmlPanel" class="panel" placeholder="HTML"><p id="p1">Edit this</p></textarea>
+    
+    <textarea id="cssPanel" class="panel hidden" placeholder="CSS">p{font-size:200%;background-color:azure;}</textarea>
+    <textarea id="jsPanel" class="panel hidden" placeholder="JS">document.getElementById("p1").innerHTML="Content changed with JS and color changed with CSS"</textarea>
+    <iframe id="outputPanel" class="panel" placeholder="OutPut"></iframe>
+    
+    
+    <!--JS CODE AHEAD -->
+    <script>
+    $(".toggleButton").hover(function(){
+        $(this).addClass("highlighted");
+        },function(){
+        $(this).removeClass("highlighted");
+        }
+    );
+        
+        $(".toggleButton").click(function(){
+            $(this).toggleClass("active"); 
+            $(this).removeClass("highlighted");
+            var panelId=$(this).attr("id")+"Panel";
+            //alert(panelId);
+            $("#"+panelId).toggleClass('hidden');
+            var numberOfActivePanels = 4 - $(".hidden").length;
+            $(".panel").width(($(window).width()/numberOfActivePanels )-10 );
+        });
+        
+function updateOutput()
+    {
+        $("iframe").contents().find('html').html("<html><head><style>" + $("#cssPanel").val() + "</style></head><body>"+ $("#htmlPanel").val()+"</body></html>");
+        document.getElementById("outputPanel").contentWindow.eval($("#jsPanel").val());
+    }
+        
+        //nighht mode functions
+        /*function turnNightModeOn()
+        {
+            $(".panel").toggleClass()
+                //animate({backgroundColor :"#242329",color:"white"},3000);
+            
+        }
+        
+        function turnNightModeOff()
+        {
+            $(".panel")    
+        }*/
+        
+                
+        $(".panel").height($(window).height() - $("#header").height() - 44);
+        $(".panel").width(($(window).width() / 2)-10 );
+        
+           updateOutput();
+        
+               $("textarea").on('change keyup paste',function(){
+                   updateOutput();
+               });
+        
+        //code for night mode
+        
+        $("#nightBtn").click(function(){
+        
+        $("#htmlPanel").toggleClass("nightMode");
+        $("#cssPanel").toggleClass("nightMode");
+        $("#jsPanel").toggleClass("nightMode");
+        $("#header").toggleClass("nightMode");
+
+            
+        
+                  } );
+                
+            
+    </script>
+    </body>
+</html>
